@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Fraldas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8f9;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #e07aa5;
+    }
+    .fralda {
+      background: #fff;
+      border: 2px solid #e07aa5;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 10px auto;
+      width: 320px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      margin: 5px;
+      background: #e07aa5;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+    button:hover:not(:disabled) {
+      opacity: 0.8;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎀 Chá de Fraldas 🎀</h1>
+  <p>Escolha a fralda que você vai levar e reserve:</p>
+
+  <div id="lista-fraldas"></div>
+
+  <script>
+    // Lista de fraldas (edite conforme a necessidade 👇)
+    let fraldas = [
+      { nome: "RN", quantidade: 4, reservadas: 0 },
+      { nome: "P", quantidade: 12, reservadas: 0 },
+      { nome: "M", quantidade: 20, reservadas: 0 },
+      { nome: "G", quantidade: 24, reservadas: 0 }
+    ];
+
+    function renderLista() {
+      const lista = document.getElementById("lista-fraldas");
+      lista.innerHTML = "";
+
+      fraldas.forEach((fralda, index) => {
+        const item = document.createElement("div");
+        item.className = "fralda";
+        item.innerHTML = `
+          <h3>${fralda.nome}</h3>
+          <p>Disponível: ${fralda.quantidade}</p>
+          <p>Você reservou: ${fralda.reservadas}</p>
+          <button onclick="reservar(${index})" ${fralda.quantidade === 0 ? "disabled" : ""}>
+            Reservar
+          </button>
+          <button onclick="cancelar(${index})" ${fralda.reservadas === 0 ? "disabled" : ""}>
+            Cancelar Reserva
+          </button>
+        `;
+        lista.appendChild(item);
+      });
+    }
+
+    function reservar(index) {
+      if (fraldas[index].quantidade > 0) {
+        fraldas[index].quantidade--;
+        fraldas[index].reservadas++;
+        renderLista();
+      }
+    }
+
+    function cancelar(index) {
+      if (fraldas[index].reservadas > 0) {
+        fraldas[index].quantidade++;
+        fraldas[index].reservadas--;
+        renderLista();
+      }
+    }
+
+    renderLista();
+  </script>
+</body>
+</html>
